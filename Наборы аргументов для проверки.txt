@@ -1,0 +1,4 @@
+-a -i out.txt in1.txt in2.txt in3.txt in4.txt числа по возрастанию
+-d -i out.txt in11.txt in12.txt in13.txt in14.txt числа по убыванию
+-a -s out.txt in1111.txt in1112.txt in1113.txt in1114.txt строки по возрастанию
+-d -s out.txt in111.txt in112.txt in113.txt in114.txt строки по убыванию
