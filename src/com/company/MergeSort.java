@@ -1,15 +1,16 @@
 package com.company;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
 class MergeSort {
 
-    private HashMap<String, ReadFile> inputFiles = new HashMap<String, ReadFile>();
+    private HashMap<String, ReadFile> inputFiles = new HashMap<>();
     private FileWriter output = null;
-    private String mode = null;
-    private String typeOfData = null;
+    private String mode;
+    private String typeOfData;
     private String lastLine = null;
     private int lastInt;
 
@@ -25,11 +26,18 @@ class MergeSort {
         }
         sortArray(outputFileName, inFiles);
     }
+
+    private void deleteFile() {
+        File out = new File("out.txt");
+        if(out.exists()) {
+            out.delete();
+        }
+    }
+
     private void sortArray(String outputFileName, ArrayList<String> inFiles){ // Здесь файл на выход и создаем объекты класса ReadFile для каждого имени файла из аршументов
-        try {
-            output = new FileWriter("out.txt"); // Тут чищу файл и некст строкой закрываю
-            output.close();
-            output  = new FileWriter("out.txt", true); // Открываю его без перезаписи
+        deleteFile();
+        try(FileWriter output = new FileWriter("out.txt", true)) {
+             // Открываю его без перезаписи
             for(String fileName: inFiles){
                 ReadFile file = new ReadFile(fileName);
                 inputFiles.put(fileName,file);
@@ -37,15 +45,11 @@ class MergeSort {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         if(typeOfData.equals("integer")){
             getDataInt();
         } else if(typeOfData.equals("string")){
             getDataStr();
-        }
-        try {
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
     private int getIntElement(HashMap<Integer, ReadFile> sortArray) { // Достаю минимальный элемент с мапы которую вкидывает метод сорт и увеличиваю каунтер нужного файла на 1.
@@ -73,7 +77,7 @@ class MergeSort {
                 if (minEntry == null || checkLine(entry.getKey(), minEntry.getKey())) {
                     minEntry = entry;
                 }
-            } else{
+            } else {
                 if (minEntry == null || !checkLine(entry.getKey(), minEntry.getKey())) {
                     minEntry = entry;
                 }
