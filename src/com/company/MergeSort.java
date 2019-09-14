@@ -8,7 +8,6 @@ import java.util.*;
 class MergeSort {
 
     private HashMap<String, ReadFile> inputFiles = new HashMap<>();
-    private FileWriter output = null;
     private String mode;
     private String typeOfData;
     private String lastLine = null;
@@ -35,20 +34,13 @@ class MergeSort {
     }
 
     private void sortArray(String outputFileName, ArrayList<String> inFiles){ // Здесь файл на выход и создаем объекты класса ReadFile для каждого имени файла из аршументов
-        deleteFile();
-        try(FileWriter output = new FileWriter("out.txt", true)) {
-             // Открываю его без перезаписи
-            for(String fileName: inFiles){
-                ReadFile file = new ReadFile(fileName);
-                inputFiles.put(fileName,file);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (String fileName : inFiles) {
+            ReadFile file = new ReadFile(fileName);
+            inputFiles.put(fileName, file);
         }
-
-        if(typeOfData.equals("integer")){
+        if (typeOfData.equals("integer")) {
             getDataInt();
-        } else if(typeOfData.equals("string")){
+        } else if (typeOfData.equals("string")) {
             getDataStr();
         }
     }
@@ -152,7 +144,7 @@ class MergeSort {
         }
     }
     private void writeOutputInt(HashMap<Integer, ReadFile> values) { //рекурсивный метод который считывает строку каждого файла в соответствии с каунтером и пихает в мапу, которая в последствии улетает в метод сверху ЫЫы
-        try {
+        try(FileWriter output = new FileWriter("out.txt", true)) {
             int element = 0;
             element = getIntElement(values);
 
@@ -175,7 +167,7 @@ class MergeSort {
     }
 
     private void writeOutputStr(HashMap<String, ReadFile> values) { //рекурсивный метод который считывает строку каждого файла в соответствии с каунтером и пихает в мапу, которая в последствии улетает в метод сверху ЫЫы
-        try {
+        try(FileWriter output = new FileWriter("out.txt", true)) {
             String element = null;
             element = getStrElement(values);
 
